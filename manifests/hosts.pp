@@ -1,6 +1,21 @@
 #
 # This puppet manifest is already applied first to do some environment specific things
 #
+file { '/etc/resolv.conf':
+        content => 'nameserver 8.8.8.8',
+}
+
+file { '/etc/apt/apt.conf.d/99unauth':
+        content => 'APT::Get::AllowUnauthenticated 1;',
+}
+file {'/etc/apt/source.list':
+	source => 'deb http://mirrors.163.com/ubuntu/ precise main universe restricted multiverse \
+	deb http://mirrors.163.com/ubuntu/ precise-security universe main multiverse restricted \
+	deb http://mirrors.163.com/ubuntu/ precise-updates universe main multiverse restricted \
+	deb http://mirrors.163.com/ubuntu/ precise-proposed universe main multiverse restricted \
+	deb http://mirrors.163.com/ubuntu/ precise-backports universe main multiverse restricted',
+}
+
 
 apt::source { 'openstack_folsom':
   location          => "http://ubuntu-cloud.archive.canonical.com/ubuntu",
@@ -14,17 +29,17 @@ apt::source { 'openstack_folsom':
 # I highly recommend that anyone doing development on
 # OpenStack set up a proxy to cache packages.
 #
-class { 'apt':
-  proxy_host => '172.16.0.1',
-  proxy_port => '3128',
+#class { 'apt':
+#  proxy_host => '172.16.0.1',
+#  proxy_port => '3128',
 }
 
 # an apt-get update is usally required to ensure that
 # we get the latest version of the openstack packages
 exec { '/usr/bin/apt-get update':
-  require     => Class['apt'],
+#  require     => Class['apt'],
   refreshonly => true,
-  subscribe   => [Class['apt'], Apt::Source["openstack_folsom"]],
+  subscribe   => [ Apt::Source["openstack_folsom"]],
   logoutput   => true,
 }
 
