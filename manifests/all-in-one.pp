@@ -44,25 +44,25 @@ $libvirt_type = 'qemu'
 #### end shared variables #################
 
 #### controller/compute mode settings ####
-$mysql_host    = '172.16.0.8'
-$keystone_host = '172.16.0.7'
-$glance_host   = '172.16.0.6'
-$nova_host     = '172.16.0.5'
+$mysql_host    = '127.0.0.1'
+$keystone_host = '127.0.0.1'
+$glance_host   = '127.0.0.1'
+$nova_host     = '127.0.0.1'
 #### controller/compute mode settings ####
-$openstack_controller = '172.16.0.3'
+$openstack_controller = '127.0.0.1'
 #### controller/compute mode settings ####
 
 node /all_in_one/ {
 
-  class { 'openstack::db::mysql':
-    mysql_root_password  => $mysql_root_password,
-    keystone_db_password => $keystone_db_password,
-    glance_db_password   => $glance_db_password,
-    nova_db_password     => $nova_db_password,
-    cinder_db_password   => $cinder_db_password,
-    quantum_db_password  => $quantum_db_password,
-    allowed_hosts        => $allowed_hosts,
-  }
+#  class { 'openstack::db::mysql':
+#    mysql_root_password  => $mysql_root_password,
+#    keystone_db_password => $keystone_db_password,
+#    glance_db_password   => $glance_db_password,
+#    nova_db_password     => $nova_db_password,
+#    cinder_db_password   => $cinder_db_password,
+#    quantum_db_password  => $quantum_db_password,
+#    allowed_hosts        => $allowed_hosts,
+#  }
 
 
   # TODO keystone logging seems to be totally broken in folsom
@@ -143,7 +143,7 @@ node /all_in_one/ {
     # need to sort out networking...
     network_manager        => 'nova.network.manager.FlatDHCPManager',
     fixed_range            => '10.0.0.0/24',
-    floating_range         => '172.16.0.64/25',
+    floating_range         => '127.0.0.14/25',
     create_networks        => true,
     multi_host             => true,
     db_host                => '127.0.0.1',
@@ -237,18 +237,18 @@ node /all_in_one/ {
 #  class { 'nova::volume::iscsi': }
 
   class { 'openstack::nova::controller':
-    public_address     => '172.16.0.5',
+    public_address     => '127.0.0.1',
     public_interface   => $public_interface,
     private_interface  => $private_interface,
-    db_host            => '172.16.0.8',
+    db_host            => '127.0.0.1',
     rabbit_password    => $rabbit_password,
     nova_user_password => $nova_user_password,
     nova_db_password   => $nova_db_password,
     network_manager    => 'nova.network.manager.FlatDHCPManager',
     verbose            => $verbose,
     multi_host         => true,
-    glance_api_servers => '172.16.0.6:9292',
-    keystone_host      => '172.16.0.7',
+    glance_api_servers => '127.0.0.1:9292',
+    keystone_host      => '127.0.0.1',
     #floating_range          => $floating_network_range,
     #fixed_range             => $fixed_network_range,
   }
@@ -260,14 +260,14 @@ node /all_in_one/ {
     swift                 => false,
     quantum               => false,
     horizon_app_links     => undef,
-    keystone_host         => '172.16.0.7',
+    keystone_host         => '127.0.0.1',
     keystone_default_role => 'Member',
   }
 
   class { 'openstack::auth_file':
     admin_password       => $admin_password,
     keystone_admin_token => $admin_token,
-    controller_node      => '172.16.0.7',
+    controller_node      => '127.0.0.1',
   }
 
 
@@ -358,12 +358,6 @@ node /all_in_one/ {
     'linuxnet_interface_driver':       value => 'nova.network.linux_net.LinuxOVSInterfaceDriver';
     'linuxnet_ovs_integration_bridge': value => 'br-int';
   }
-}
-
-node /devstack/ {
-
-  class { 'devstack': }
-
 }
 
 node default {
