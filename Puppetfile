@@ -1,6 +1,7 @@
 forge "http://forge.puppetlabs.com"
 
-mod 'puppetlabs/openstack', :git => 'git://github.com/bodepd/puppetlabs-openstack', :ref => 'folsom'
+# openstack modules
+mod 'puppetlabs/openstack', :git => 'git://github.com/NewpTone/puppetlabs-openstack', :ref => 'folsom'
 mod 'puppetlabs/nova', :git => 'git://github.com/bodepd/puppetlabs-nova', :ref => 'folsom'
 mod 'puppetlabs/glance', :git => 'git://github.com/bodepd/puppetlabs-glance', :ref => 'folsom'
 mod 'puppetlabs/keystone', :git => 'git://github.com/bodepd/puppetlabs-keystone', :ref => 'folsom'
@@ -9,7 +10,7 @@ mod 'puppetlabs/swift', :git => 'git://github.com/puppetlabs/puppetlabs-swift'
 mod 'bodepd/devstack', :git => 'git://github.com/bodepd/puppetlabs-devstack'
 mod 'puppet/cinder', :git => 'git://github.com/bodepd/puppet-cinder'
 mod 'puppet/quantum', :git => 'git://github.com/bodepd/openstack-quantum-puppet/', :ref => 'folsom'
-# openstack middleware
+# openstack base services
 mod 'puppet/vswitch', :git => 'git://github.com/bodepd/puppet-vswitch'
 mod 'puppetlabs/rabbitmq', :git => 'git://github.com/puppetlabs/puppetlabs-rabbitmq'
 mod 'puppetlabs/mysql', :git => 'git://github.com/puppetlabs/puppetlabs-mysql'

@@ -205,7 +205,9 @@ node /openstack-controller/ {
     #quantum_admin_username    => 'quantum',
     quantum_admin_auth_url    => "http://${openstack_controller}:35357/v2.0",
   }
+  class {'quantum::agents::l3':
 
+}
   package { 'python-cliff':
     ensure => present,
   }
